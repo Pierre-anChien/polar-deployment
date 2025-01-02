@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - github.com/pierre-anchien/catalog-service/k8s?ref=sha256:4d9eae87afcfc17db1d3c4c29d5db70563b1de4baee050a9d60df544751e00cb
+patchesStrategicMerge:
+  - patch-env.yml
+  - patch-resources.yml
+  - patch-volumes.yml
+
+configMapGenerator:
+  - behavior: merge
+    files:
+      - application-prod.yml
+    name: catalog-config
+
+images:
+  - name: catalog-service
+    newName: ghcr.io/pierre-anchien/catalog-service
+    newTag: sha256:4d9eae87afcfc17db1d3c4c29d5db70563b1de4baee050a9d60df544751e00cb
+
+replicas: 
+  - count: 2
+    name: catalog-service
