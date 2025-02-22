@@ -1,5 +1,6 @@
-FROM eclipse-temurin:17
-WORKDIR workspace
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} edge-service.jar
-ENTRYPOINT ["java", "-jar", "edge-service.jar"]
+
+FROM ubuntu:22.04
+
+RUN apt-get update && apt-get install -y default-jre
+
+ENTRYPOINT ["java", "--version"]
